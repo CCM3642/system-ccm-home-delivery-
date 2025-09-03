@@ -757,7 +757,7 @@
             <option value="Home Delivery">Home Delivery</option>
             <option value="Online">Online</option>
           </select>
-          <button class="btn btn-custom btn-primary-custom" data-bs-toggle="modal" data-bs-target="#caseModal">
+          <button class="btn btn-custom btn-primary-custom" id="addCaseBtn">
             <i class="bi bi-plus-circle me-1"></i>Add Case
           </button>
         </div>
@@ -787,12 +787,12 @@
   </div>
   
   <!-- Case Modal -->
-  <div class="modal fade" id="caseModal" tabindex="-1">
+  <div class="modal fade" id="caseModal" tabindex="-1" aria-labelledby="caseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add New Case</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <h5 class="modal-title" id="caseModalLabel">Add New Case</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id="caseForm">
@@ -870,12 +870,12 @@
   </div>
   
   <!-- Add Platform Modal -->
-  <div class="modal fade" id="addPlatformModal" tabindex="-1">
+  <div class="modal fade" id="addPlatformModal" tabindex="-1" aria-labelledby="addPlatformModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add New Platform</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <h5 class="modal-title" id="addPlatformModalLabel">Add New Platform</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id="addPlatformForm">
@@ -898,12 +898,12 @@
   </div>
   
   <!-- Add Branch Modal -->
-  <div class="modal fade" id="addBranchModal" tabindex="-1">
+  <div class="modal fade" id="addBranchModal" tabindex="-1" aria-labelledby="addBranchModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add New Branch</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <h5 class="modal-title" id="addBranchModalLabel">Add New Branch</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id="addBranchForm">
@@ -931,6 +931,9 @@
   
   <!-- Notification Container -->
   <div id="notificationContainer"></div>
+  
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
     // Sample data
@@ -998,6 +1001,16 @@
       renderCasesTable();
       initCharts();
       setupEventListeners();
+      
+      // Initialize modals
+      const caseModal = new bootstrap.Modal(document.getElementById('caseModal'));
+      const addPlatformModal = new bootstrap.Modal(document.getElementById('addPlatformModal'));
+      const addBranchModal = new bootstrap.Modal(document.getElementById('addBranchModal'));
+      
+      // Set current date and time in case form
+      const now = new Date();
+      const dateTime = now.toISOString().slice(0, 16);
+      document.getElementById('dateTime').value = dateTime;
     });
     
     // Setup event listeners
@@ -1009,10 +1022,11 @@
       document.getElementById('branchFilter').addEventListener('change', filterCases);
       document.getElementById('platformFilter').addEventListener('change', filterCases);
       
-      // Set current date and time in case form
-      const now = new Date();
-      const dateTime = now.toISOString().slice(0, 16);
-      document.getElementById('dateTime').value = dateTime;
+      // Add case button click handler
+      document.getElementById('addCaseBtn').addEventListener('click', function() {
+        const caseModal = new bootstrap.Modal(document.getElementById('caseModal'));
+        caseModal.show();
+      });
     }
     
     // Update statistics
@@ -1136,8 +1150,8 @@
         document.getElementById('evidenceUrl').value = '';
         
         // Show modal
-        const modal = new bootstrap.Modal(document.getElementById('caseModal'));
-        modal.show();
+        const caseModal = new bootstrap.Modal(document.getElementById('caseModal'));
+        caseModal.show();
       }
     }
     
@@ -1165,6 +1179,13 @@
     
     // Save new case
     function saveCase() {
+      // Validate form
+      const form = document.getElementById('caseForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      
       const newCase = {
         id: 'CASE' + String(casesData.length + 1).padStart(3, '0'),
         date: document.getElementById('dateTime').value.replace('T', ' '),
@@ -1182,11 +1203,11 @@
       updateStatistics();
       
       // Close modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('caseModal'));
-      modal.hide();
+      const caseModal = bootstrap.Modal.getInstance(document.getElementById('caseModal'));
+      caseModal.hide();
       
       // Reset form
-      document.getElementById('caseForm').reset();
+      form.reset();
       const now = new Date();
       const dateTime = now.toISOString().slice(0, 16);
       document.getElementById('dateTime').value = dateTime;
@@ -1203,8 +1224,8 @@
         showNotification(`Platform "${platformName}" added successfully!`, 'success');
         
         // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addPlatformModal'));
-        modal.hide();
+        const addPlatformModal = bootstrap.Modal.getInstance(document.getElementById('addPlatformModal'));
+        addPlatformModal.hide();
         
         // Reset form
         document.getElementById('addPlatformForm').reset();
@@ -1221,8 +1242,8 @@
         showNotification(`Branch "${branchName}" added successfully!`, 'success');
         
         // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addBranchModal'));
-        modal.hide();
+        const addBranchModal = bootstrap.Modal.getInstance(document.getElementById('addBranchModal'));
+        addBranchModal.hide();
         
         // Reset form
         document.getElementById('addBranchForm').reset();
