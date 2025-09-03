@@ -13,58 +13,70 @@
   
   <style>
     :root {
-      --primary: #ff6b35;
-      --secondary: #f7931e;
-      --accent: #004e98;
-      --success: #28a745;
-      --danger: #dc3545;
-      --warning: #ffc107;
-      --info: #17a2b8;
+      --primary: #4a90e2;
+      --primary-dark: #3a7bc8;
+      --secondary: #50c878;
+      --accent: #ff9f43;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+      --info: #3498db;
       --light: #f8f9fa;
-      --dark: #343a40;
-      --gray: #6c757d;
-      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+      --lighter: #f5f7fa;
+      --dark: #2c3e50;
+      --gray: #7f8c8d;
+      --gray-light: #bdc3c7;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
       --radius: 12px;
       --transition: all 0.3s ease;
     }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
+      background-color: var(--lighter);
       color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.6;
     }
+    
     /* Navigation */
     .navbar {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      box-shadow: var(--shadow-lg);
+      background-color: white;
+      box-shadow: var(--shadow);
       padding: 1rem 0;
     }
+    
     .navbar-brand {
-      color: white !important;
+      color: var(--primary) !important;
       font-weight: 700;
       font-size: 1.5rem;
       display: flex;
       align-items: center;
       gap: 10px;
     }
+    
     .navbar-brand i {
       font-size: 2rem;
+      color: var(--primary);
     }
+    
     /* Main Container */
     .main-container {
       max-width: 1400px;
       margin: 2rem auto;
       padding: 0 20px;
     }
+    
     /* Cards */
     .card-custom {
-      background: white;
+      background-color: white;
       border-radius: var(--radius);
       padding: 2rem;
       box-shadow: var(--shadow);
@@ -73,6 +85,12 @@
       position: relative;
       overflow: hidden;
     }
+    
+    .card-custom:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
     .card-custom::before {
       content: '';
       position: absolute;
@@ -82,10 +100,7 @@
       height: 4px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
-    .card-custom:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
+    
     /* Stats Cards */
     .stats-grid {
       display: grid;
@@ -93,24 +108,30 @@
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
+    
     .stat-card {
-      background: linear-gradient(135deg, white, #f8f9fa);
+      background-color: white;
       border-radius: var(--radius);
       padding: 1.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
     }
+    
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    
     .stat-card h2 {
       font-size: 2.5rem;
       font-weight: 700;
       margin: 1rem 0;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--primary);
     }
+    
     /* Platform Cards */
     .platform-cards {
       display: grid;
@@ -118,8 +139,9 @@
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
+    
     .platform-card {
-      background: white;
+      background-color: white;
       border-radius: var(--radius);
       padding: 2rem;
       text-align: center;
@@ -127,6 +149,7 @@
       transition: var(--transition);
       position: relative;
     }
+    
     .platform-card::before {
       content: '';
       position: absolute;
@@ -134,17 +157,21 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background: linear-gradient(90deg, var(--accent), var(--info));
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
+    
+    .platform-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
     .platform-card h3 {
       font-size: 2.5rem;
       font-weight: 700;
       margin: 1rem 0;
-      background: linear-gradient(135deg, var(--accent), var(--info));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--primary);
     }
+    
     /* Section Titles */
     .section-title {
       font-size: 1.8rem;
@@ -154,6 +181,7 @@
       position: relative;
       padding-bottom: 0.75rem;
     }
+    
     .section-title::after {
       content: '';
       position: absolute;
@@ -163,30 +191,36 @@
       height: 4px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
+    
     /* Tables */
     .table-custom {
-      background: white;
+      background-color: white;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
     }
+    
     .table-custom thead {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
     }
+    
     .table-custom th {
       font-weight: 600;
       padding: 1rem;
       text-align: left;
     }
+    
     .table-custom td {
       padding: 1rem;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       text-align: left;
     }
+    
     .table-custom tbody tr:hover {
-      background: rgba(255, 107, 53, 0.05);
+      background-color: rgba(74, 144, 226, 0.05);
     }
+    
     /* Buttons */
     .btn-custom {
       border-radius: 8px;
@@ -195,40 +229,74 @@
       transition: var(--transition);
       border: none;
     }
+    
     .btn-primary-custom {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+    }
+    
+    .btn-primary-custom:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
+    }
+    
+    .btn-secondary-custom {
+      background-color: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    
+    .btn-secondary-custom:hover {
+      background-color: var(--primary);
       color: white;
     }
-    .btn-primary-custom:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
-    }
+    
     /* Forms */
     .form-control-custom {
       border-radius: 8px;
       border: 1px solid rgba(0, 0, 0, 0.1);
       padding: 0.75rem 1rem;
       transition: var(--transition);
+      background-color: white;
     }
+    
     .form-control-custom:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
     }
+    
+    .form-select-custom {
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 1rem;
+      transition: var(--transition);
+      background-color: white;
+    }
+    
+    .form-select-custom:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    }
+    
     /* Modals */
     .modal-content {
       border-radius: var(--radius);
       border: none;
       box-shadow: var(--shadow-lg);
     }
+    
     .modal-header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border-radius: var(--radius) var(--radius) 0 0;
       border: none;
     }
+    
     /* Charts */
     .chart-container {
-      background: white;
+      background-color: white;
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
@@ -236,6 +304,7 @@
       height: 350px;
       margin-bottom: 2rem;
     }
+    
     .chart-container::before {
       content: '';
       position: absolute;
@@ -243,12 +312,15 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--info));
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
+    
     .chart-container h5 {
       margin-bottom: 1rem;
       font-weight: 600;
+      color: var(--dark);
     }
+    
     /* Case Categories */
     .case-categories {
       display: grid;
@@ -256,45 +328,131 @@
       gap: 1rem;
       margin-bottom: 2rem;
     }
+    
     .case-category {
-      background: white;
+      background-color: white;
       border-radius: var(--radius);
       padding: 1.5rem;
       text-align: center;
       box-shadow: var(--shadow);
       transition: var(--transition);
       cursor: pointer;
-      border: 2px solid transparent;
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
+    
     .case-category:hover {
-      border-color: var(--primary);
       transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
     }
+    
     .case-category i {
       font-size: 2.5rem;
       margin-bottom: 1rem;
       color: var(--primary);
     }
+    
     .case-category h5 {
       font-weight: 600;
       margin-bottom: 0.5rem;
+      color: var(--dark);
     }
+    
     .case-category p {
       color: var(--gray);
       font-size: 0.9rem;
     }
-    /* High Priority Alerts */
+    
+    /* High Priority Cases */
     .high-priority {
-      background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+      background-color: rgba(231, 76, 60, 0.1);
       border-left: 4px solid var(--danger);
       padding: 1rem;
       border-radius: var(--radius);
       margin-bottom: 1rem;
     }
+    
     .high-priority h5 {
       color: var(--danger);
       font-weight: 600;
     }
+    
+    /* Branch Selection */
+    .branch-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    
+    .branch-btn {
+      background-color: white;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--dark);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .branch-btn:hover, .branch-btn.active {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+    }
+    
+    /* Status Badges */
+    .status-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .status-open {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--info);
+    }
+    
+    .status-processing {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+    }
+    
+    .status-resolved {
+      background-color: rgba(46, 204, 113, 0.1);
+      color: var(--success);
+    }
+    
+    /* Case Severity */
+    .severity-high {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: var(--danger);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .severity-medium {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: var(--warning);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .severity-low {
+      background-color: rgba(46, 204, 113, 0.1);
+      color: var(--success);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
     /* Responsive */
     @media (max-width: 768px) {
       .main-container {
@@ -316,7 +474,17 @@
       .chart-container {
         height: 300px;
       }
+      
+      .branch-buttons {
+        gap: 0.5rem;
+      }
+      
+      .branch-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
     }
+    
     /* Animations */
     @keyframes fadeIn {
       from {
@@ -328,64 +496,60 @@
         transform: translateY(0);
       }
     }
+    
     .fade-in {
       animation: fadeIn 0.5s ease-out;
     }
+    
     /* Loading Spinner */
     .spinner-custom {
       width: 3rem;
       height: 3rem;
-      border: 3px solid rgba(255, 107, 53, 0.3);
+      border: 3px solid rgba(74, 144, 226, 0.3);
       border-radius: 50%;
       border-top-color: var(--primary);
       animation: spin 1s ease-in-out infinite;
     }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    /* Status Badges */
-    .status-badge {
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
     }
-    .status-open {
-      background: rgba(13, 110, 253, 0.1);
-      color: var(--info);
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .status-processing {
-      background: rgba(255, 193, 7, 0.1);
-      color: var(--warning);
+    
+    .notification.success {
+      background-color: var(--success);
     }
-    .status-resolved {
-      background: rgba(40, 167, 69, 0.1);
-      color: var(--success);
+    
+    .notification.error {
+      background-color: var(--danger);
     }
-    /* Case Severity */
-    .severity-high {
-      background: rgba(220, 53, 69, 0.1);
-      color: var(--danger);
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
+    
+    .notification.warning {
+      background-color: var(--warning);
     }
-    .severity-medium {
-      background: rgba(255, 193, 7, 0.1);
-      color: var(--warning);
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .severity-low {
-      background: rgba(40, 167, 69, 0.1);
-      color: var(--success);
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
+    
+    .notification.info {
+      background-color: var(--info);
     }
   </style>
 </head>
@@ -400,7 +564,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link text-white fw-semibold" href="#">
+            <a class="nav-link text-primary fw-semibold" href="#">
               <i class="bi bi-speedometer2 me-2"></i>Dashboard
             </a>
           </li>
@@ -484,8 +648,8 @@
           <h5><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Food Quality Case - Crispy Chicken Khaldia</h5>
           <p class="mb-0">3 consecutive complaints reported in the same day</p>
           <div class="mt-2">
-            <button class="btn btn-sm btn-danger">Immediate Action</button>
-            <button class="btn btn-sm btn-outline-secondary">Details</button>
+            <button class="btn btn-sm btn-danger" onclick="handleHighPriority('Crispy Chicken Khaldia')">Immediate Action</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="viewCaseDetails('CASE001')">Details</button>
           </div>
         </div>
       </div>
@@ -533,7 +697,7 @@
         </div>
       </div>
       <div class="platform-card">
-        <button class="btn btn-outline-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#addPlatformModal">
+        <button class="btn btn-secondary-custom btn-lg w-100" data-bs-toggle="modal" data-bs-target="#addPlatformModal">
           <i class="bi bi-plus-circle me-2"></i>Add Platform
         </button>
       </div>
@@ -541,15 +705,16 @@
     <!-- Branch Selection -->
     <section class="mb-4 fade-in">
       <h3 class="section-title">Branches</h3>
-      <div class="d-flex flex-wrap gap-2">
-        <button class="btn btn-outline-primary">Crispy Chicken-Hamdan St</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Khaldia</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Shabiya 11</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Muroor</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Al Electra</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Al Barsha</button>
-        <button class="btn btn-outline-primary">Crispy Chicken Al Satwa</button>
-        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+      <div class="branch-buttons">
+        <button class="btn branch-btn active" onclick="filterByBranch('all')">All Branches</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken-Hamdan St')">Crispy Chicken-Hamdan St</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Khaldia')">Crispy Chicken Khaldia</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Shabiya 11')">Crispy Chicken Shabiya 11</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Muroor')">Crispy Chicken Muroor</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Al Electra')">Crispy Chicken Al Electra</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Al Barsha')">Crispy Chicken Al Barsha</button>
+        <button class="btn branch-btn" onclick="filterByBranch('Crispy Chicken Al Satwa')">Crispy Chicken Al Satwa</button>
+        <button class="btn btn-secondary-custom" data-bs-toggle="modal" data-bs-target="#addBranchModal">
           <i class="bi bi-plus-circle me-2"></i>Add Branch
         </button>
       </div>
@@ -574,25 +739,25 @@
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="section-title mb-0">Case List</h3>
         <div class="d-flex gap-2">
-          <input type="text" class="form-control form-control-custom" style="width: 200px;" placeholder="Search...">
-          <select class="form-select form-control-custom" style="width: 150px;">
-            <option>All Branches</option>
-            <option>Crispy Chicken-Hamdan St</option>
-            <option>Crispy Chicken Khaldia</option>
-            <option>Crispy Chicken Shabiya 11</option>
-            <option>Crispy Chicken Muroor</option>
-            <option>Crispy Chicken Al Electra</option>
-            <option>Crispy Chicken Al Barsha</option>
-            <option>Crispy Chicken Al Satwa</option>
+          <input type="text" class="form-control form-control-custom" style="width: 200px;" placeholder="Search..." id="searchInput">
+          <select class="form-select form-select-custom" style="width: 150px;" id="branchFilter">
+            <option value="all">All Branches</option>
+            <option value="Crispy Chicken-Hamdan St">Crispy Chicken-Hamdan St</option>
+            <option value="Crispy Chicken Khaldia">Crispy Chicken Khaldia</option>
+            <option value="Crispy Chicken Shabiya 11">Crispy Chicken Shabiya 11</option>
+            <option value="Crispy Chicken Muroor">Crispy Chicken Muroor</option>
+            <option value="Crispy Chicken Al Electra">Crispy Chicken Al Electra</option>
+            <option value="Crispy Chicken Al Barsha">Crispy Chicken Al Barsha</option>
+            <option value="Crispy Chicken Al Satwa">Crispy Chicken Al Satwa</option>
           </select>
-          <select class="form-select form-control-custom" style="width: 120px;">
-            <option>All Platforms</option>
-            <option>Noon</option>
-            <option>Careem</option>
-            <option>Home Delivery</option>
-            <option>Online</option>
+          <select class="form-select form-select-custom" style="width: 120px;" id="platformFilter">
+            <option value="all">All Platforms</option>
+            <option value="Noon">Noon</option>
+            <option value="Careem">Careem</option>
+            <option value="Home Delivery">Home Delivery</option>
+            <option value="Online">Online</option>
           </select>
-          <button class="btn btn-custom btn-primary-custom">
+          <button class="btn btn-custom btn-primary-custom" data-bs-toggle="modal" data-bs-target="#caseModal">
             <i class="bi bi-plus-circle me-1"></i>Add Case
           </button>
         </div>
@@ -634,71 +799,71 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Order ID</label>
-                <input type="text" class="form-control form-control-custom" required>
+                <input type="text" class="form-control form-control-custom" id="orderId" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Date & Time</label>
-                <input type="datetime-local" class="form-control form-control-custom" required>
+                <input type="datetime-local" class="form-control form-control-custom" id="dateTime" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Branch</label>
-                <select class="form-select form-control-custom" required>
-                  <option>Select Branch</option>
-                  <option>Crispy Chicken-Hamdan St</option>
-                  <option>Crispy Chicken Khaldia</option>
-                  <option>Crispy Chicken Shabiya 11</option>
-                  <option>Crispy Chicken Muroor</option>
-                  <option>Crispy Chicken Al Electra</option>
-                  <option>Crispy Chicken Al Barsha</option>
-                  <option>Crispy Chicken Al Satwa</option>
+                <select class="form-select form-select-custom" id="branchSelect" required>
+                  <option value="">Select Branch</option>
+                  <option value="Crispy Chicken-Hamdan St">Crispy Chicken-Hamdan St</option>
+                  <option value="Crispy Chicken Khaldia">Crispy Chicken Khaldia</option>
+                  <option value="Crispy Chicken Shabiya 11">Crispy Chicken Shabiya 11</option>
+                  <option value="Crispy Chicken Muroor">Crispy Chicken Muroor</option>
+                  <option value="Crispy Chicken Al Electra">Crispy Chicken Al Electra</option>
+                  <option value="Crispy Chicken Al Barsha">Crispy Chicken Al Barsha</option>
+                  <option value="Crispy Chicken Al Satwa">Crispy Chicken Al Satwa</option>
                 </select>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Platform</label>
-                <select class="form-select form-control-custom" required>
-                  <option>Select Platform</option>
-                  <option>Noon</option>
-                  <option>Careem</option>
-                  <option>Home Delivery</option>
-                  <option>Online</option>
+                <select class="form-select form-select-custom" id="platformSelect" required>
+                  <option value="">Select Platform</option>
+                  <option value="Noon">Noon</option>
+                  <option value="Careem">Careem</option>
+                  <option value="Home Delivery">Home Delivery</option>
+                  <option value="Online">Online</option>
                 </select>
               </div>
               <div class="col-12">
                 <label class="form-label">Case Type</label>
-                <select class="form-select form-control-custom" required>
-                  <option>Select Type</option>
-                  <option>Customer Service</option>
-                  <option>Food Quality</option>
-                  <option>Delivery</option>
-                  <option>Cleanliness</option>
+                <select class="form-select form-select-custom" id="caseTypeSelect" required>
+                  <option value="">Select Type</option>
+                  <option value="Customer Service">Customer Service</option>
+                  <option value="Food Quality">Food Quality</option>
+                  <option value="Delivery">Delivery</option>
+                  <option value="Cleanliness">Cleanliness</option>
                 </select>
               </div>
               <div class="col-12">
                 <label class="form-label">Complaint Description</label>
-                <textarea class="form-control form-control-custom" rows="3" required></textarea>
+                <textarea class="form-control form-control-custom" id="complaintText" rows="3" required></textarea>
               </div>
               <div class="col-12">
                 <label class="form-label">Action Taken</label>
-                <textarea class="form-control form-control-custom" rows="3" required></textarea>
+                <textarea class="form-control form-control-custom" id="actionText" rows="3" required></textarea>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Original Amount (AED)</label>
-                <input type="number" class="form-control form-control-custom" required>
+                <input type="number" class="form-control form-control-custom" id="originalAmount" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Compensation (AED)</label>
-                <input type="number" class="form-control form-control-custom" required>
+                <input type="number" class="form-control form-control-custom" id="compensationAmount" required>
               </div>
               <div class="col-12">
                 <label class="form-label">Evidence (Image URL)</label>
-                <input type="url" class="form-control form-control-custom">
+                <input type="url" class="form-control form-control-custom" id="evidenceUrl">
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary-custom">Save</button>
+          <button type="button" class="btn btn-primary-custom" onclick="saveCase()">Save Case</button>
         </div>
       </div>
     </div>
@@ -716,17 +881,17 @@
           <form id="addPlatformForm">
             <div class="mb-3">
               <label class="form-label">Platform Name</label>
-              <input type="text" class="form-control form-control-custom" required>
+              <input type="text" class="form-control form-control-custom" id="platformName" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Description</label>
-              <textarea class="form-control form-control-custom" rows="3"></textarea>
+              <textarea class="form-control form-control-custom" id="platformDesc" rows="3"></textarea>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary-custom">Add Platform</button>
+          <button type="button" class="btn btn-primary-custom" onclick="savePlatform()">Add Platform</button>
         </div>
       </div>
     </div>
@@ -744,29 +909,32 @@
           <form id="addBranchForm">
             <div class="mb-3">
               <label class="form-label">Branch Name</label>
-              <input type="text" class="form-control form-control-custom" required>
+              <input type="text" class="form-control form-control-custom" id="branchName" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Address</label>
-              <textarea class="form-control form-control-custom" rows="3" required></textarea>
+              <textarea class="form-control form-control-custom" id="branchAddress" rows="3" required></textarea>
             </div>
             <div class="mb-3">
               <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-control form-control-custom" required>
+              <input type="tel" class="form-control form-control-custom" id="branchPhone" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary-custom">Add Branch</button>
+          <button type="button" class="btn btn-primary-custom" onclick="saveBranch()">Add Branch</button>
         </div>
       </div>
     </div>
   </div>
   
+  <!-- Notification Container -->
+  <div id="notificationContainer"></div>
+  
   <script>
     // Sample data
-    const casesData = [
+    let casesData = [
       {
         id: 'CASE001',
         date: '2024-01-15 14:30',
@@ -799,6 +967,28 @@
         actionTaken: 'Staff training and apology to customer',
         compensation: 10,
         status: 'Resolved'
+      },
+      {
+        id: 'CASE004',
+        date: '2024-01-13 10:15',
+        branch: 'Crispy Chicken-Hamdan St',
+        platform: 'Online',
+        type: 'Cleanliness',
+        complaint: 'Restaurant was not clean',
+        actionTaken: 'Deep cleaning and staff retraining',
+        compensation: 5,
+        status: 'Resolved'
+      },
+      {
+        id: 'CASE005',
+        date: '2024-01-12 18:30',
+        branch: 'Crispy Chicken Al Barsha',
+        platform: 'Noon',
+        type: 'Food Quality',
+        complaint: 'Incorrect order items',
+        actionTaken: 'Corrected order and 10% discount',
+        compensation: 10,
+        status: 'Open'
       }
     ];
     
@@ -807,7 +997,23 @@
       updateStatistics();
       renderCasesTable();
       initCharts();
+      setupEventListeners();
     });
+    
+    // Setup event listeners
+    function setupEventListeners() {
+      // Search functionality
+      document.getElementById('searchInput').addEventListener('input', filterCases);
+      
+      // Filter dropdowns
+      document.getElementById('branchFilter').addEventListener('change', filterCases);
+      document.getElementById('platformFilter').addEventListener('change', filterCases);
+      
+      // Set current date and time in case form
+      const now = new Date();
+      const dateTime = now.toISOString().slice(0, 16);
+      document.getElementById('dateTime').value = dateTime;
+    }
     
     // Update statistics
     function updateStatistics() {
@@ -829,11 +1035,11 @@
     }
     
     // Render cases table
-    function renderCasesTable() {
+    function renderCasesTable(filteredData = casesData) {
       const tbody = document.getElementById('casesTableBody');
       tbody.innerHTML = '';
       
-      casesData.forEach(caseItem => {
+      filteredData.forEach(caseItem => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td><strong>${caseItem.id}</strong></td>
@@ -857,6 +1063,194 @@
       });
     }
     
+    // Filter cases
+    function filterCases() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const branchFilter = document.getElementById('branchFilter').value;
+      const platformFilter = document.getElementById('platformFilter').value;
+      
+      let filtered = casesData.filter(caseItem => {
+        const matchesSearch = 
+          caseItem.id.toLowerCase().includes(searchTerm) ||
+          caseItem.branch.toLowerCase().includes(searchTerm) ||
+          caseItem.platform.toLowerCase().includes(searchTerm) ||
+          caseItem.type.toLowerCase().includes(searchTerm) ||
+          caseItem.complaint.toLowerCase().includes(searchTerm) ||
+          caseItem.actionTaken.toLowerCase().includes(searchTerm);
+          
+        const matchesBranch = branchFilter === 'all' || caseItem.branch === branchFilter;
+        const matchesPlatform = platformFilter === 'all' || caseItem.platform === platformFilter;
+        
+        return matchesSearch && matchesBranch && matchesPlatform;
+      });
+      
+      renderCasesTable(filtered);
+    }
+    
+    // Filter by category
+    function filterByCategory(category) {
+      let filtered = casesData;
+      
+      if (category === 'service') {
+        filtered = casesData.filter(c => c.type === 'Customer Service');
+      } else if (category === 'quality') {
+        filtered = casesData.filter(c => c.type === 'Food Quality');
+      } else if (category === 'delivery') {
+        filtered = casesData.filter(c => c.type === 'Delivery');
+      } else if (category === 'cleanliness') {
+        filtered = casesData.filter(c => c.type === 'Cleanliness');
+      }
+      
+      renderCasesTable(filtered);
+    }
+    
+    // Filter by branch
+    function filterByBranch(branch) {
+      // Update active branch button
+      document.querySelectorAll('.branch-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Update branch filter dropdown
+      document.getElementById('branchFilter').value = branch === 'all' ? 'all' : branch;
+      
+      // Apply filters
+      filterCases();
+    }
+    
+    // Case actions
+    function editCase(id) {
+      const caseItem = casesData.find(c => c.id === id);
+      if (caseItem) {
+        // Populate form with case data
+        document.getElementById('orderId').value = caseItem.id.replace('CASE', '');
+        document.getElementById('dateTime').value = caseItem.date.replace(' ', 'T');
+        document.getElementById('branchSelect').value = caseItem.branch;
+        document.getElementById('platformSelect').value = caseItem.platform;
+        document.getElementById('caseTypeSelect').value = caseItem.type;
+        document.getElementById('complaintText').value = caseItem.complaint;
+        document.getElementById('actionText').value = caseItem.actionTaken;
+        document.getElementById('originalAmount').value = caseItem.compensation * 4; // Assuming original is 4x compensation
+        document.getElementById('compensationAmount').value = caseItem.compensation;
+        document.getElementById('evidenceUrl').value = '';
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('caseModal'));
+        modal.show();
+      }
+    }
+    
+    function resolveCase(id) {
+      const caseItem = casesData.find(c => c.id === id);
+      if (caseItem) {
+        caseItem.status = 'Resolved';
+        renderCasesTable();
+        updateStatistics();
+        showNotification('Case resolved successfully!', 'success');
+      }
+    }
+    
+    function handleHighPriority(branch) {
+      showNotification(`Taking immediate action for issues at ${branch}`, 'warning');
+      // Implement high priority handling logic
+    }
+    
+    function viewCaseDetails(id) {
+      const caseItem = casesData.find(c => c.id === id);
+      if (caseItem) {
+        showNotification(`Viewing details for Case ${id}: ${caseItem.complaint}`, 'info');
+      }
+    }
+    
+    // Save new case
+    function saveCase() {
+      const newCase = {
+        id: 'CASE' + String(casesData.length + 1).padStart(3, '0'),
+        date: document.getElementById('dateTime').value.replace('T', ' '),
+        branch: document.getElementById('branchSelect').value,
+        platform: document.getElementById('platformSelect').value,
+        type: document.getElementById('caseTypeSelect').value,
+        complaint: document.getElementById('complaintText').value,
+        actionTaken: document.getElementById('actionText').value,
+        compensation: parseInt(document.getElementById('compensationAmount').value),
+        status: 'Open'
+      };
+      
+      casesData.push(newCase);
+      renderCasesTable();
+      updateStatistics();
+      
+      // Close modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('caseModal'));
+      modal.hide();
+      
+      // Reset form
+      document.getElementById('caseForm').reset();
+      const now = new Date();
+      const dateTime = now.toISOString().slice(0, 16);
+      document.getElementById('dateTime').value = dateTime;
+      
+      showNotification('Case added successfully!', 'success');
+    }
+    
+    // Save new platform
+    function savePlatform() {
+      const platformName = document.getElementById('platformName').value;
+      const platformDesc = document.getElementById('platformDesc').value;
+      
+      if (platformName) {
+        showNotification(`Platform "${platformName}" added successfully!`, 'success');
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addPlatformModal'));
+        modal.hide();
+        
+        // Reset form
+        document.getElementById('addPlatformForm').reset();
+      }
+    }
+    
+    // Save new branch
+    function saveBranch() {
+      const branchName = document.getElementById('branchName').value;
+      const branchAddress = document.getElementById('branchAddress').value;
+      const branchPhone = document.getElementById('branchPhone').value;
+      
+      if (branchName && branchAddress && branchPhone) {
+        showNotification(`Branch "${branchName}" added successfully!`, 'success');
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addBranchModal'));
+        modal.hide();
+        
+        // Reset form
+        document.getElementById('addBranchForm').reset();
+      }
+    }
+    
+    // Show notification
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      
+      document.getElementById('notificationContainer').appendChild(notification);
+      
+      // Trigger animation
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 10);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          notification.remove();
+        }, 300);
+      }, 3000);
+    }
+    
     // Initialize charts
     function initCharts() {
       // Branch Chart
@@ -869,8 +1263,10 @@
                    'Crispy Chicken Al Satwa'],
           datasets: [{
             label: 'Number of Cases',
-            data: [8, 12, 5, 7, 3, 4, 2],
-            backgroundColor: 'rgba(255, 107, 53, 0.8)'
+            data: [1, 1, 1, 1, 0, 1, 0],
+            backgroundColor: 'rgba(74, 144, 226, 0.8)',
+            borderColor: 'rgba(74, 144, 226, 1)',
+            borderWidth: 1
           }]
         },
         options: {
@@ -883,7 +1279,19 @@
             y: {
               beginAtZero: true,
               ticks: {
+                color: 'rgba(44, 62, 80, 0.7)',
                 precision: 0
+              },
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'rgba(44, 62, 80, 0.7)'
+              },
+              grid: {
+                display: false
               }
             }
           }
@@ -897,13 +1305,20 @@
         data: {
           labels: ['Customer Service', 'Food Quality', 'Delivery', 'Cleanliness'],
           datasets: [{
-            data: [15, 20, 10, 5],
+            data: [1, 2, 1, 1],
             backgroundColor: [
-              'rgba(255, 107, 53, 0.8)',
-              'rgba(247, 147, 30, 0.8)',
-              'rgba(0, 78, 152, 0.8)',
-              'rgba(23, 162, 184, 0.8)'
-            ]
+              'rgba(74, 144, 226, 0.8)',
+              'rgba(80, 200, 120, 0.8)',
+              'rgba(255, 159, 67, 0.8)',
+              'rgba(52, 152, 219, 0.8)'
+            ],
+            borderColor: [
+              'rgba(74, 144, 226, 1)',
+              'rgba(80, 200, 120, 1)',
+              'rgba(255, 159, 67, 1)',
+              'rgba(52, 152, 219, 1)'
+            ],
+            borderWidth: 1
           }]
         },
         options: {
@@ -913,6 +1328,7 @@
             legend: {
               position: 'right',
               labels: {
+                color: 'rgba(44, 62, 80, 0.9)',
                 padding: 20,
                 font: {
                   size: 14
@@ -923,46 +1339,6 @@
         }
       });
     }
-    
-    // Filter functions
-    function filterByCategory(category) {
-      console.log('Filtering by category:', category);
-      // Implement filtering logic
-    }
-    
-    // Case actions
-    function editCase(id) {
-      console.log('Editing case:', id);
-      // Implement edit logic
-    }
-    
-    function resolveCase(id) {
-      const caseItem = casesData.find(c => c.id === id);
-      if (caseItem) {
-        caseItem.status = 'Resolved';
-        renderCasesTable();
-        updateStatistics();
-      }
-    }
-    
-    // Form submissions
-    document.getElementById('caseForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Implement save logic
-      console.log('Saving new case');
-    });
-    
-    document.getElementById('addPlatformForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Implement add platform logic
-      console.log('Adding new platform');
-    });
-    
-    document.getElementById('addBranchForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Implement add branch logic
-      console.log('Adding new branch');
-    });
   </script>
 </body>
 </html>
