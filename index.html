@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurant Case Management & Compensation System</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --primary: #ff6b35;
+      --secondary: #f7931e;
+      --accent: #004e98;
+      --success: #28a745;
+      --danger: #dc3545;
+      --warning: #ffc107;
+      --info: #17a2b8;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --gray: #6c757d;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: var(--dark);
+    }
+    /* Navigation */
+    .navbar {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: var(--shadow-lg);
+      padding: 1rem 0;
+    }
+    .navbar-brand {
+      color: white !important;
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .navbar-brand i {
+      font-size: 2rem;
+    }
+    /* Main Container */
+    .main-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+    /* Cards */
+    .card-custom {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-custom::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    .card-custom:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, white, #f8f9fa);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .stat-card h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    /* Platform Cards */
+    .platform-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .platform-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    .platform-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--info));
+    }
+    .platform-card h3 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      background: linear-gradient(135deg, var(--accent), var(--info));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    /* Section Titles */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    /* Tables */
+    .table-custom {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .table-custom thead {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    .table-custom th {
+      font-weight: 600;
+      padding: 1rem;
+      text-align: left;
+    }
+    .table-custom td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+    .table-custom tbody tr:hover {
+      background: rgba(255, 107, 53, 0.05);
+    }
+    /* Buttons */
+    .btn-custom {
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+    }
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+    /* Forms */
+    .form-control-custom {
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 1rem;
+      transition: var(--transition);
+    }
+    .form-control-custom:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    }
+    /* Modals */
+    .modal-content {
+      border-radius: var(--radius);
+      border: none;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: var(--radius) var(--radius) 0 0;
+      border: none;
+    }
+    /* Charts */
+    .chart-container {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      height: 350px;
+      margin-bottom: 2rem;
+    }
+    .chart-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--info));
+    }
+    .chart-container h5 {
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    /* Case Categories */
+    .case-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .case-category {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .case-category:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+    .case-category i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .case-category h5 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .case-category p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    /* High Priority Alerts */
+    .high-priority {
+      background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+      border-left: 4px solid var(--danger);
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+    }
+    .high-priority h5 {
+      color: var(--danger);
+      font-weight: 600;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 0 15px;
+      }
+      
+      .stats-grid, .platform-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-custom {
+        font-size: 0.9rem;
+      }
+      
+      .table-custom th, .table-custom td {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .chart-container {
+        height: 300px;
+      }
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+    /* Loading Spinner */
+    .spinner-custom {
+      width: 3rem;
+      height: 3rem;
+      border: 3px solid rgba(255, 107, 53, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Status Badges */
+    .status-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .status-open {
+      background: rgba(13, 110, 253, 0.1);
+      color: var(--info);
+    }
+    .status-processing {
+      background: rgba(255, 193, 7, 0.1);
+      color: var(--warning);
+    }
+    .status-resolved {
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success);
+    }
+    /* Case Severity */
+    .severity-high {
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .severity-medium {
+      background: rgba(255, 193, 7, 0.1);
+      color: var(--warning);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .severity-low {
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-fire"></i>
+        Restaurant Case Management & Compensation System
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white fw-semibold" href="#">
+              <i class="bi bi-speedometer2 me-2"></i>Dashboard
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Statistics Section -->
+    <section class="stats-grid fade-in">
+      <div class="stat-card">
+        <div class="text-muted">Total Cases</div>
+        <h2 id="totalCases">0</h2>
+        <div class="mt-2">
+          <span class="text-success">
+            <i class="bi bi-arrow-up"></i> 12%
+          </span>
+          <span class="text-muted ms-2">This Month</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-muted">Open</div>
+        <h2 id="openCases" style="color: var(--info);">0</h2>
+        <div class="mt-2">
+          <span class="text-danger">
+            <i class="bi bi-arrow-up"></i> 5%
+          </span>
+          <span class="text-muted ms-2">New</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-muted">In Progress</div>
+        <h2 id="processingCases" style="color: var(--warning);">0</h2>
+        <div class="mt-2">
+          <span class="text-muted">Avg Time: 2.5 days</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-muted">Customer Resolved</div>
+        <h2 id="resolvedCases" style="color: var(--success);">0</h2>
+        <div class="mt-2">
+          <span class="text-success">
+            <i class="bi bi-arrow-down"></i> 8%
+          </span>
+          <span class="text-muted ms-2">Improved</span>
+        </div>
+      </div>
+    </section>
+    <!-- Case Categories -->
+    <section class="mb-4 fade-in">
+      <h3 class="section-title">Case Categories</h3>
+      <div class="case-categories">
+        <div class="case-category" onclick="filterByCategory('service')">
+          <i class="bi bi-person-badge"></i>
+          <h5>Customer Service</h5>
+          <p>Issues with service and customer handling</p>
+        </div>
+        <div class="case-category" onclick="filterByCategory('quality')">
+          <i class="bi bi-star-fill"></i>
+          <h5>Food Quality</h5>
+          <p>Problems with food quality and taste</p>
+        </div>
+        <div class="case-category" onclick="filterByCategory('delivery')">
+          <i class="bi bi-truck"></i>
+          <h5>Delivery</h5>
+          <p>Delays in delivery or packaging issues</p>
+        </div>
+        <div class="case-category" onclick="filterByCategory('cleanliness')">
+          <i class="bi bi-house"></i>
+          <h5>Cleanliness</h5>
+          <p>Issues with cleanliness, health and safety</p>
+        </div>
+      </div>
+    </section>
+    <!-- High Priority Cases -->
+    <section class="mb-4 fade-in">
+      <h3 class="section-title">High Priority Cases</h3>
+      <div id="highPriorityAlerts">
+        <div class="high-priority">
+          <h5><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Food Quality Case - Crispy Chicken Khaldia</h5>
+          <p class="mb-0">3 consecutive complaints reported in the same day</p>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-danger">Immediate Action</button>
+            <button class="btn btn-sm btn-outline-secondary">Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Platform Performance -->
+    <section class="platform-cards mb-4 fade-in">
+      <div class="platform-card">
+        <div class="text-muted">Noon Platform</div>
+        <h3 id="noonCases">0</h3>
+        <div class="percentage" id="noonPercentage">0%</div>
+        <div class="mt-3">
+          <span class="severity-high">1 Case</span>
+          <span class="severity-medium">3 Cases</span>
+          <span class="severity-low">5 Cases</span>
+        </div>
+      </div>
+      <div class="platform-card">
+        <div class="text-muted">Careem Platform</div>
+        <h3 id="careemCases">0</h3>
+        <div class="percentage" id="careemPercentage">0%</div>
+        <div class="mt-3">
+          <span class="severity-high">2 Cases</span>
+          <span class="severity-medium">4 Cases</span>
+          <span class="severity-low">3 Cases</span>
+        </div>
+      </div>
+      <div class="platform-card">
+        <div class="text-muted">Home Delivery Platform</div>
+        <h3 id="homedeliveryCases">0</h3>
+        <div class="percentage" id="homedeliveryPercentage">0%</div>
+        <div class="mt-3">
+          <span class="severity-high">1 Case</span>
+          <span class="severity-medium">2 Cases</span>
+          <span class="severity-low">4 Cases</span>
+        </div>
+      </div>
+      <div class="platform-card">
+        <div class="text-muted">Online Platform</div>
+        <h3 id="onlineCases">0</h3>
+        <div class="percentage" id="onlinePercentage">0%</div>
+        <div class="mt-3">
+          <span class="severity-high">0 Cases</span>
+          <span class="severity-medium">1 Case</span>
+          <span class="severity-low">3 Cases</span>
+        </div>
+      </div>
+      <div class="platform-card">
+        <button class="btn btn-outline-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#addPlatformModal">
+          <i class="bi bi-plus-circle me-2"></i>Add Platform
+        </button>
+      </div>
+    </section>
+    <!-- Branch Selection -->
+    <section class="mb-4 fade-in">
+      <h3 class="section-title">Branches</h3>
+      <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-outline-primary">Crispy Chicken-Hamdan St</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Khaldia</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Shabiya 11</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Muroor</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Al Electra</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Al Barsha</button>
+        <button class="btn btn-outline-primary">Crispy Chicken Al Satwa</button>
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+          <i class="bi bi-plus-circle me-2"></i>Add Branch
+        </button>
+      </div>
+    </section>
+    <!-- Charts Section -->
+    <section class="row g-3 mb-4 fade-in">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h5>Case Distribution by Branch</h5>
+          <canvas id="branchChart"></canvas>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h5>Case Types</h5>
+          <canvas id="caseChart"></canvas>
+        </div>
+      </div>
+    </section>
+    <!-- Cases Table -->
+    <section class="fade-in">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="section-title mb-0">Case List</h3>
+        <div class="d-flex gap-2">
+          <input type="text" class="form-control form-control-custom" style="width: 200px;" placeholder="Search...">
+          <select class="form-select form-control-custom" style="width: 150px;">
+            <option>All Branches</option>
+            <option>Crispy Chicken-Hamdan St</option>
+            <option>Crispy Chicken Khaldia</option>
+            <option>Crispy Chicken Shabiya 11</option>
+            <option>Crispy Chicken Muroor</option>
+            <option>Crispy Chicken Al Electra</option>
+            <option>Crispy Chicken Al Barsha</option>
+            <option>Crispy Chicken Al Satwa</option>
+          </select>
+          <select class="form-select form-control-custom" style="width: 120px;">
+            <option>All Platforms</option>
+            <option>Noon</option>
+            <option>Careem</option>
+            <option>Home Delivery</option>
+            <option>Online</option>
+          </select>
+          <button class="btn btn-custom btn-primary-custom">
+            <i class="bi bi-plus-circle me-1"></i>Add Case
+          </button>
+        </div>
+      </div>
+      
+      <div class="table-custom">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Date & Time</th>
+              <th>Branch</th>
+              <th>Platform</th>
+              <th>Case Type</th>
+              <th>Complaint</th>
+              <th>Action Taken</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="casesTableBody">
+            <!-- Data will be populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Case Modal -->
+  <div class="modal fade" id="caseModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Case</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="caseForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Order ID</label>
+                <input type="text" class="form-control form-control-custom" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date & Time</label>
+                <input type="datetime-local" class="form-control form-control-custom" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Branch</label>
+                <select class="form-select form-control-custom" required>
+                  <option>Select Branch</option>
+                  <option>Crispy Chicken-Hamdan St</option>
+                  <option>Crispy Chicken Khaldia</option>
+                  <option>Crispy Chicken Shabiya 11</option>
+                  <option>Crispy Chicken Muroor</option>
+                  <option>Crispy Chicken Al Electra</option>
+                  <option>Crispy Chicken Al Barsha</option>
+                  <option>Crispy Chicken Al Satwa</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Platform</label>
+                <select class="form-select form-control-custom" required>
+                  <option>Select Platform</option>
+                  <option>Noon</option>
+                  <option>Careem</option>
+                  <option>Home Delivery</option>
+                  <option>Online</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Case Type</label>
+                <select class="form-select form-control-custom" required>
+                  <option>Select Type</option>
+                  <option>Customer Service</option>
+                  <option>Food Quality</option>
+                  <option>Delivery</option>
+                  <option>Cleanliness</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Complaint Description</label>
+                <textarea class="form-control form-control-custom" rows="3" required></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Action Taken</label>
+                <textarea class="form-control form-control-custom" rows="3" required></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Original Amount (AED)</label>
+                <input type="number" class="form-control form-control-custom" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Compensation (AED)</label>
+                <input type="number" class="form-control form-control-custom" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Evidence (Image URL)</label>
+                <input type="url" class="form-control form-control-custom">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary-custom">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Platform Modal -->
+  <div class="modal fade" id="addPlatformModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Platform</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addPlatformForm">
+            <div class="mb-3">
+              <label class="form-label">Platform Name</label>
+              <input type="text" class="form-control form-control-custom" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control form-control-custom" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary-custom">Add Platform</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Branch Modal -->
+  <div class="modal fade" id="addBranchModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Branch</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addBranchForm">
+            <div class="mb-3">
+              <label class="form-label">Branch Name</label>
+              <input type="text" class="form-control form-control-custom" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <textarea class="form-control form-control-custom" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control form-control-custom" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary-custom">Add Branch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Sample data
+    const casesData = [
+      {
+        id: 'CASE001',
+        date: '2024-01-15 14:30',
+        branch: 'Crispy Chicken Khaldia',
+        platform: 'Noon',
+        type: 'Food Quality',
+        complaint: 'Food was cold upon delivery',
+        actionTaken: 'Free replacement order and 25% discount',
+        compensation: 25,
+        status: 'Open'
+      },
+      {
+        id: 'CASE002',
+        date: '2024-01-15 16:45',
+        branch: 'Crispy Chicken Muroor',
+        platform: 'Careem',
+        type: 'Delivery',
+        complaint: 'Delivery delayed by 2 hours',
+        actionTaken: '15% discount on next order',
+        compensation: 15,
+        status: 'In Progress'
+      },
+      {
+        id: 'CASE003',
+        date: '2024-01-14 12:20',
+        branch: 'Crispy Chicken Shabiya 11',
+        platform: 'Home Delivery',
+        type: 'Customer Service',
+        complaint: 'Staff was rude',
+        actionTaken: 'Staff training and apology to customer',
+        compensation: 10,
+        status: 'Resolved'
+      }
+    ];
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      updateStatistics();
+      renderCasesTable();
+      initCharts();
+    });
+    
+    // Update statistics
+    function updateStatistics() {
+      document.getElementById('totalCases').textContent = casesData.length;
+      document.getElementById('openCases').textContent = casesData.filter(c => c.status === 'Open').length;
+      document.getElementById('processingCases').textContent = casesData.filter(c => c.status === 'In Progress').length;
+      document.getElementById('resolvedCases').textContent = casesData.filter(c => c.status === 'Resolved').length;
+      
+      // Platform stats
+      const noonCount = casesData.filter(c => c.platform === 'Noon').length;
+      const careemCount = casesData.filter(c => c.platform === 'Careem').length;
+      const homedeliveryCount = casesData.filter(c => c.platform === 'Home Delivery').length;
+      const onlineCount = casesData.filter(c => c.platform === 'Online').length;
+      
+      document.getElementById('noonCases').textContent = noonCount;
+      document.getElementById('careemCases').textContent = careemCount;
+      document.getElementById('homedeliveryCases').textContent = homedeliveryCount;
+      document.getElementById('onlineCases').textContent = onlineCount;
+    }
+    
+    // Render cases table
+    function renderCasesTable() {
+      const tbody = document.getElementById('casesTableBody');
+      tbody.innerHTML = '';
+      
+      casesData.forEach(caseItem => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${caseItem.id}</strong></td>
+          <td>${caseItem.date}</td>
+          <td>${caseItem.branch}</td>
+          <td>${caseItem.platform}</td>
+          <td>${caseItem.type}</td>
+          <td>${caseItem.complaint}</td>
+          <td>${caseItem.actionTaken}</td>
+          <td><span class="status-badge status-${caseItem.status === 'Open' ? 'open' : caseItem.status === 'In Progress' ? 'processing' : 'resolved'}">${caseItem.status}</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" onclick="editCase('${caseItem.id}')">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-success" onclick="resolveCase('${caseItem.id}')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    // Initialize charts
+    function initCharts() {
+      // Branch Chart
+      const branchCtx = document.getElementById('branchChart').getContext('2d');
+      new Chart(branchCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Crispy Chicken-Hamdan St', 'Crispy Chicken Khaldia', 'Crispy Chicken Shabiya 11', 
+                   'Crispy Chicken Muroor', 'Crispy Chicken Al Electra', 'Crispy Chicken Al Barsha', 
+                   'Crispy Chicken Al Satwa'],
+          datasets: [{
+            label: 'Number of Cases',
+            data: [8, 12, 5, 7, 3, 4, 2],
+            backgroundColor: 'rgba(255, 107, 53, 0.8)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+      
+      // Case Type Chart
+      const caseCtx = document.getElementById('caseChart').getContext('2d');
+      new Chart(caseCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Customer Service', 'Food Quality', 'Delivery', 'Cleanliness'],
+          datasets: [{
+            data: [15, 20, 10, 5],
+            backgroundColor: [
+              'rgba(255, 107, 53, 0.8)',
+              'rgba(247, 147, 30, 0.8)',
+              'rgba(0, 78, 152, 0.8)',
+              'rgba(23, 162, 184, 0.8)'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                padding: 20,
+                font: {
+                  size: 14
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Filter functions
+    function filterByCategory(category) {
+      console.log('Filtering by category:', category);
+      // Implement filtering logic
+    }
+    
+    // Case actions
+    function editCase(id) {
+      console.log('Editing case:', id);
+      // Implement edit logic
+    }
+    
+    function resolveCase(id) {
+      const caseItem = casesData.find(c => c.id === id);
+      if (caseItem) {
+        caseItem.status = 'Resolved';
+        renderCasesTable();
+        updateStatistics();
+      }
+    }
+    
+    // Form submissions
+    document.getElementById('caseForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Implement save logic
+      console.log('Saving new case');
+    });
+    
+    document.getElementById('addPlatformForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Implement add platform logic
+      console.log('Adding new platform');
+    });
+    
+    document.getElementById('addBranchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Implement add branch logic
+      console.log('Adding new branch');
+    });
+  </script>
+</body>
+</html>
